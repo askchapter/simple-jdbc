@@ -1,0 +1,33 @@
+types:
+  definitions:
+    default-package: com.company.product
+    objects:
+
+      Recipe:
+        fields:
+          name: RecipeName
+          steps: list<RecipeStep>
+
+      RecipeStep:
+        union:
+          mix: set<Ingredient>
+          chop: Ingredient
+
+      RecipeName:
+        alias: string
+
+      Ingredient:
+        alias: string
+
+services:
+  RecipeBookService:
+    name: Recipe Book
+    package: com.company.product
+    base-path: /recipes
+    endpoints:
+      createRecipe:
+        http: POST /
+        args:
+          createRecipeRequest:
+            param-type: body
+            type: Recipe

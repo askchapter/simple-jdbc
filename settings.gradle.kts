@@ -9,3 +9,7 @@
 
 rootProject.name = "simple-jdbc"
 include("app", "list", "utilities")
+include("simple-jdbc-api")
+include("simple-jdbc-api:simple-jdbc-api-objects")
+include("simple-jdbc-api:simple-jdbc-api-undertow")
+include("simple-jdbc-api:simple-jdbc-api-typescript")
