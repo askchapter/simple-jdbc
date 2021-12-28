@@ -1,33 +1,38 @@
 types:
   definitions:
-    default-package: com.company.product
+    default-package: org.simplejdbc.api
     objects:
-
-      Recipe:
+      CreateConnectionRequest:
         fields:
-          name: RecipeName
-          steps: list<RecipeStep>
+          jdbcUrl: string
 
-      RecipeStep:
-        union:
-          mix: set<Ingredient>
-          chop: Ingredient
+      Connection:
+        fields:
+          id: uuid
 
-      RecipeName:
-        alias: string
+      QueryRequest:
+        fields:
+          connectionId: uuid
+          query: string
 
-      Ingredient:
-        alias: string
+      QueryResponse:
+        fields:
+          rows: list<map<string, any>>
 
 services:
-  RecipeBookService:
-    name: Recipe Book
-    package: com.company.product
-    base-path: /recipes
+  SimpleJdbcService:
+    name: Simple JDBC
+    package: org.simplejdbc.api
+    base-path: /
     endpoints:
-      createRecipe:
-        http: POST /
+      createConnection:
+        http: POST /connection
         args:
-          createRecipeRequest:
-            param-type: body
-            type: Recipe
+          createConnectionRequest: CreateConnectionRequest
+        returns: Connection
+
+      query:
+        http: POST /query
+        args:
+          queryRequest: QueryRequest
+        returns: QueryResponse
