@@ -20,6 +20,9 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 
+    // Jackson
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1")
+
     implementation(project(":simple-jdbc-api:simple-jdbc-api-objects"))
     implementation(project(":simple-jdbc-api:simple-jdbc-api-undertow"))
     implementation("com.palantir.conjure.java:conjure-java-undertow-runtime")

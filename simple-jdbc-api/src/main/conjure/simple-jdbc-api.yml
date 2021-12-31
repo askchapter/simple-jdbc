@@ -2,22 +2,99 @@ types:
   definitions:
     default-package: org.simplejdbc.api
     objects:
-      CreateConnectionRequest:
+      TableLocator:
+        fields:
+          catalog: string
+          schema: string
+          table: string
+
+      Table:
+        fields:
+          locator: TableLocator
+          type: string
+
+      ColumnType:
+        values:
+          - STRING
+          - INTEGER
+          - DOUBLE
+          - BOOLEAN
+
+      Column:
+        fields:
+          name: string
+          type: ColumnType
+
+      Statement:
+        fields:
+          sql: string
+
+      ParameterValue:
+        union:
+          string: string
+          integer: integer
+
+      PreparedStatement:
+        fields:
+          sql: string
+          parameterValues: list<ParameterValue>
+
+      Query:
+        union:
+          statement: Statement
+          preparedStatement: PreparedStatement
+          table: TableLocator
+
+      CatalogsRequest:
         fields:
           jdbcUrl: string
 
-      Connection:
+      TablesRequest:
         fields:
-          id: uuid
+          jdbcUrl: string
+          catalog: optional<string>
 
-      QueryRequest:
+      PreviewRequest:
         fields:
-          connectionId: uuid
-          query: string
+          jdbcUrl: string
+          query: Query
+          limit: optional<integer>
 
-      QueryResponse:
+      PreviewResponse:
         fields:
-          rows: list<map<string, any>>
+          columns: list<Column>
+          rows: list<list<any>>
+          totalRows: optional<integer>
+
+      CsvDelimiter:
+        values:
+          - COMMA
+          - PIPE
+          - TAB
+
+      CsvDownloadOptions:
+        fields:
+          includeHeader: boolean
+          separator: CsvDelimiter
+
+      DownloadOptions:
+        union:
+          csv: CsvDownloadOptions
+
+      DownloadRequest:
+        fields:
+          jdbcUrl: string
+          query: Query
+          downloadOptions: DownloadOptions
+
+      JdbcDriver:
+        fields:
+          path: string
+          className: string
+
+      Configuration:
+        fields:
+          drivers: list<JdbcDriver>
 
 services:
   SimpleJdbcService:
@@ -25,14 +102,28 @@ services:
     package: org.simplejdbc.api
     base-path: /
     endpoints:
-      createConnection:
-        http: POST /connection
+      catalogs:
+        http: POST /catalogs
         args:
-          createConnectionRequest: CreateConnectionRequest
-        returns: Connection
+          catalogsRequest: CatalogsRequest
+        returns: list<string>
 
-      query:
-        http: POST /query
+      tables:
+        http: POST /tables
         args:
-          queryRequest: QueryRequest
-        returns: QueryResponse
+          tablesRequest: TablesRequest
+        returns: list<Table>
+
+      preview:
+        http: POST /preview
+        args:
+          previewRequest: PreviewRequest
+        returns: PreviewResponse
+
+      download:
+        http: POST /download
+        args:
+          downloadRequest: DownloadRequest
+        returns: binary
+
+      # update
