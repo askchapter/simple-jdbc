@@ -1,0 +1,23 @@
+package org.simplejdbc
+
+import org.simplejdbc.api.Column
+import org.simplejdbc.api.Query
+import java.sql.Connection
+
+
+data class QueryExecutionResults(val columns: List<Column>, val rows: ResultSetIterator<List<Any>>)
+
+class QueryExecution {
+    companion object {
+        fun executeQuery(connection: Connection, fetchSize: Int, limit: Int?, query: Query): QueryExecutionResults {
+            val (statement, resultSet) = query.accept(QueryExecutor(connection, fetchSize, limit))
+            val columns = ResultSetUtils.getResultSetColumns(resultSet)
+            val rows = ResultSetIterator(statement, resultSet) {
+                columns.mapIndexed { index, column ->
+                    ResultSetUtils.getColumnValue(it, index, column)
+                }
+            }
+            return QueryExecutionResults(columns, rows)
+        }
+    }
+}

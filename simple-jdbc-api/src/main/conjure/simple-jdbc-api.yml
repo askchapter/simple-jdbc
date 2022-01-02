@@ -4,8 +4,8 @@ types:
     objects:
       TableLocator:
         fields:
-          catalog: string
-          schema: string
+          catalog: optional<string>
+          schema: optional<string>
           table: string
 
       Table:
@@ -25,24 +25,19 @@ types:
           name: string
           type: ColumnType
 
-      Statement:
-        fields:
-          sql: string
-
       ParameterValue:
         union:
           string: string
           integer: integer
 
-      PreparedStatement:
+      Statement:
         fields:
           sql: string
-          parameterValues: list<ParameterValue>
+          parameterValues: optional<list<ParameterValue>>
 
       Query:
         union:
           statement: Statement
-          preparedStatement: PreparedStatement
           table: TableLocator
 
       CatalogsRequest:
@@ -53,6 +48,9 @@ types:
         fields:
           jdbcUrl: string
           catalog: optional<string>
+          schemaPattern: optional<string>
+          tablePattern: optional<string>
+          types: optional<list<string>>
 
       PreviewRequest:
         fields:
@@ -64,9 +62,18 @@ types:
         fields:
           columns: list<Column>
           rows: list<list<any>>
-          totalRows: optional<integer>
 
-      CsvDelimiter:
+      StatsRequest:
+        fields:
+          jdbcUrl: string
+          query: Query
+
+      StatsResponse:
+        fields:
+          rowCount: safelong
+          columnCount: integer
+
+      CsvSeparator:
         values:
           - COMMA
           - PIPE
@@ -75,7 +82,7 @@ types:
       CsvDownloadOptions:
         fields:
           includeHeader: boolean
-          separator: CsvDelimiter
+          separator: CsvSeparator
 
       DownloadOptions:
         union:
@@ -119,6 +126,12 @@ services:
         args:
           previewRequest: PreviewRequest
         returns: PreviewResponse
+
+      stats:
+        http: POST /stats
+        args:
+          statsRequest: StatsRequest
+        returns: StatsResponse
 
       download:
         http: POST /download

@@ -5,33 +5,22 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.palantir.conjure.java.undertow.runtime.ConjureHandler
 import io.undertow.Handlers
 import io.undertow.Undertow
-import io.undertow.server.HttpServerExchange
 import org.simplejdbc.api.Configuration
 import org.simplejdbc.api.JdbcDriver
 import org.simplejdbc.api.SimpleJdbcServiceEndpoints
 import java.io.File
-import java.net.URL
-import java.net.URLClassLoader
 import java.nio.file.Paths
-import java.sql.Driver
-import java.sql.DriverManager
-import java.util.logging.Logger
-import java.util.logging.Level
 import kotlin.system.exitProcess
 
 
 class SimpleJdbcApplication {
-    companion object {
-        val LOG = Logger.getLogger(SimpleJdbcApplication::class.java.name)
-    }
-
     fun run(configuration: Configuration) {
-        registerDrivers(configuration.drivers)
+        val driverManager = SimpleDriverManager(configuration.drivers)
 
         val handler = Handlers.path().addPrefixPath(
                         "/",
                         ConjureHandler.builder()
-                                .services(SimpleJdbcServiceEndpoints.of(SimpleJdbcResource()))
+                                .services(SimpleJdbcServiceEndpoints.of(SimpleJdbcResource(driverManager)))
                                 .build())
 
         val server: Undertow = Undertow.builder()
@@ -39,17 +28,6 @@ class SimpleJdbcApplication {
                 .setHandler(handler)
                 .build()
         server.start()
-    }
-
-    private fun registerDrivers(drivers: List<JdbcDriver>) {
-        drivers.forEach {
-            val url = URL("jar:file:${it.path}!/")
-            val classLoader = URLClassLoader(arrayOf(url))
-            val driver = Class.forName(it.className, true, classLoader)
-                    .getDeclaredConstructor()
-                    .newInstance() as Driver
-            DriverManager.registerDriver(DriverShim(driver))
-        }
     }
 }
 

@@ -22,10 +22,17 @@ dependencies {
 
     // Jackson
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1")
+    implementation("com.palantir.conjure.java.runtime:conjure-java-jackson-serialization")
 
     implementation(project(":simple-jdbc-api:simple-jdbc-api-objects"))
     implementation(project(":simple-jdbc-api:simple-jdbc-api-undertow"))
     implementation("com.palantir.conjure.java:conjure-java-undertow-runtime")
+
+    api("org.slf4j:slf4j-simple")
+    implementation("org.slf4j:slf4j-api")
+    implementation("io.github.microutils:kotlin-logging:1.12.5")
+
+    implementation("org.apache.commons:commons-csv:1.9.0")
 }
 
 tasks.named<Test>("test") {
