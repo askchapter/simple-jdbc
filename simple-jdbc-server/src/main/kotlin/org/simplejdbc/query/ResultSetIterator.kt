@@ -24,6 +24,7 @@ class ResultSetIterator<T>(private val resultSet: ResultSet, private val mapRows
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun next(): T {
         synchronized(state) {
             val toReturn: T
