@@ -4,40 +4,45 @@ import java.io.Closeable
 import java.sql.ResultSet
 import java.sql.Statement
 
-// TODO: fix concurrency issues
-class ResultSetIterator<T>(private val statement: Statement, private val resultSet: ResultSet, private val mapRows: (ResultSet) -> T): Iterator<T>, Closeable {
-    private var hasNextValue: Boolean? = null
-    private var nextValue: T? = null
+private data class ResultSetIteratorState<T>(val hasNextValue: Boolean?, val nextValue: T?)
 
+class ResultSetIterator<T>(private val statement: Statement?, private val resultSet: ResultSet, private val mapRows: (ResultSet) -> T): Iterator<T>, Closeable {
+    private var state: ResultSetIteratorState<T> = ResultSetIteratorState(hasNextValue = null, nextValue = null)
+
+    @Synchronized
     override fun hasNext(): Boolean {
-        if (hasNextValue == null) {
-            hasNextValue = resultSet.next()
-            if (hasNextValue as Boolean) {
-                nextValue = mapRows(resultSet)
+        synchronized(state) {
+            if (state.hasNextValue == null) {
+                val hasNextValue = resultSet.next()
+                var nextValue: T? = null
+                if (hasNextValue) {
+                    nextValue = mapRows(resultSet)
+                }
+                state = ResultSetIteratorState(hasNextValue, nextValue)
             }
+            return state.hasNextValue as Boolean
         }
-        return hasNextValue as Boolean
     }
 
     override fun next(): T {
-        var toReturn: T
-        if (nextValue != null) {
-            toReturn = nextValue as T
-            hasNextValue = null
-            nextValue = null
-        } else {
-            val more = resultSet.next()
-            if (!more) {
-                throw RuntimeException("No rows remaining")
+        synchronized(state) {
+            val toReturn: T
+            if (state.nextValue != null) {
+                toReturn = state.nextValue as T
+                state = ResultSetIteratorState(hasNextValue = null, nextValue = null)
+            } else {
+                val more = resultSet.next()
+                if (!more) {
+                    throw RuntimeException("No rows remaining")
+                }
+                toReturn = mapRows(resultSet)
             }
-            toReturn = mapRows(resultSet)
+            return toReturn
         }
-        return toReturn
     }
 
     override fun close() {
         resultSet.close()
-        statement.close()
+        statement?.close()
     }
-
 }

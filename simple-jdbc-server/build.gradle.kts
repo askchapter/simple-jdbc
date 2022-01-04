@@ -33,6 +33,8 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.12.5")
 
     implementation("org.apache.commons:commons-csv:1.9.0")
+    implementation("org.apache.avro:avro:1.11.0")
+    implementation("org.xerial.snappy:snappy-java:1.1.8.4")
 }
 
 tasks.named<Test>("test") {

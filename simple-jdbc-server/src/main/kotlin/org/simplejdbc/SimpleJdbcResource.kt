@@ -4,18 +4,16 @@ import com.palantir.conjure.java.undertow.lib.BinaryResponseBody
 import org.simplejdbc.api.*
 import mu.KotlinLogging
 
-private val logger = KotlinLogging.logger {}
-
 class SimpleJdbcResource(private val driverManager: SimpleDriverManager): SimpleJdbcService {
     override fun catalogs(catalogsRequest: CatalogsRequest): List<String> {
         val connection = driverManager.getConnection(catalogsRequest.jdbcUrl)
         val resultSet = connection.metaData.catalogs
 
-        val catalogs: ArrayList<String> = ArrayList()
-        while (resultSet.next()) {
-            catalogs.add(resultSet.getString(1))
+        return ResultSetIterator(null, resultSet) {
+            it.getString(1)
+        }.use {
+            it.asSequence().toList()
         }
-        return catalogs
     }
 
     override fun tables(tablesRequest: TablesRequest): List<Table> {
@@ -27,11 +25,10 @@ class SimpleJdbcResource(private val driverManager: SimpleDriverManager): Simple
                 tablesRequest.types.map { it.toTypedArray() }.orElse(null)
         )
 
-        val tables: ArrayList<Table> = ArrayList()
-        while (resultSet.next()) {
-            val catalog = resultSet.getString("TABLE_CAT")
-            val schema = resultSet.getString("TABLE_SCHEM")
-            val table = resultSet.getString("TABLE_NAME")
+        return ResultSetIterator(null, resultSet) {
+            val catalog = it.getString("TABLE_CAT")
+            val schema = it.getString("TABLE_SCHEM")
+            val table = it.getString("TABLE_NAME")
             val tableLocatorBuilder = TableLocator.builder()
             if (!catalog.isNullOrEmpty()) {
                 tableLocatorBuilder.catalog(catalog)
@@ -40,13 +37,13 @@ class SimpleJdbcResource(private val driverManager: SimpleDriverManager): Simple
                 tableLocatorBuilder.schema(schema)
             }
             val tableLocator = tableLocatorBuilder.table(table).build()
-            tables.add(Table.builder()
-                    .type(resultSet.getString("TABLE_TYPE"))
+            Table.builder()
+                    .type(it.getString("TABLE_TYPE"))
                     .locator(tableLocator)
                     .build()
-            )
+        }.use {
+            it.asSequence().toList()
         }
-        return tables
     }
 
     override fun preview(previewRequest: PreviewRequest): PreviewResponse {
@@ -73,6 +70,10 @@ class SimpleJdbcResource(private val driverManager: SimpleDriverManager): Simple
         return downloadRequest.downloadOptions.accept(object: DownloadOptions.Visitor<BinaryResponseBody> {
             override fun visitCsv(options: CsvDownloadOptions): BinaryResponseBody {
                 return CsvDownloadWriter(result, options)
+            }
+
+            override fun visitAvro(options: AvroDownloadOptions): BinaryResponseBody {
+                return AvroDownloadWriter(result, options)
             }
 
             override fun visitUnknown(unknownType: String): BinaryResponseBody {

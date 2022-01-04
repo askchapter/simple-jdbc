@@ -13,12 +13,18 @@ types:
           locator: TableLocator
           type: string
 
+      SimpleColumnType:
+        fields: {}
+
       ColumnType:
-        values:
-          - STRING
-          - INTEGER
-          - DOUBLE
-          - BOOLEAN
+        union:
+          string: SimpleColumnType
+          integer: SimpleColumnType
+          double: SimpleColumnType
+          boolean: SimpleColumnType
+          long: SimpleColumnType
+          timestamp: SimpleColumnType
+          binary: SimpleColumnType
 
       Column:
         fields:
@@ -84,9 +90,19 @@ types:
           includeHeader: boolean
           separator: CsvSeparator
 
+      AvroCompression:
+        values:
+          - SNAPPY
+          - BZIP2
+
+      AvroDownloadOptions:
+        fields:
+          compression: AvroCompression
+
       DownloadOptions:
         union:
           csv: CsvDownloadOptions
+          avro: AvroDownloadOptions
 
       DownloadRequest:
         fields:
