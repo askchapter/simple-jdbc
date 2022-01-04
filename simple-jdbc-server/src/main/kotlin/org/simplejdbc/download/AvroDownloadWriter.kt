@@ -1,4 +1,4 @@
-package org.simplejdbc
+package org.simplejdbc.download
 
 import com.palantir.conjure.java.undertow.lib.BinaryResponseBody
 import org.apache.avro.SchemaBuilder
@@ -7,6 +7,7 @@ import org.apache.avro.file.DataFileWriter
 import org.apache.avro.generic.GenericData
 import org.apache.avro.generic.GenericDatumWriter
 import org.apache.avro.generic.GenericRecord
+import org.simplejdbc.query.QueryExecutionResults
 import org.simplejdbc.api.AvroCompression
 import org.simplejdbc.api.AvroDownloadOptions
 import org.simplejdbc.api.ColumnType

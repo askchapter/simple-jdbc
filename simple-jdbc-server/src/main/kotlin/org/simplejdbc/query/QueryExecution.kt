@@ -1,4 +1,4 @@
-package org.simplejdbc
+package org.simplejdbc.query
 
 import org.simplejdbc.api.Column
 import org.simplejdbc.api.Query

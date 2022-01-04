@@ -1,15 +1,15 @@
-package org.simplejdbc
+package org.simplejdbc.download
 
 import com.palantir.conjure.java.undertow.lib.BinaryResponseBody
 import org.apache.commons.csv.CSVFormat
 import org.simplejdbc.api.CsvDownloadOptions
 import java.io.OutputStream
 import org.apache.commons.csv.CSVPrinter
+import org.simplejdbc.query.QueryExecutionResults
 import org.simplejdbc.api.CsvSeparator
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.nio.charset.Charset
-import java.sql.Connection
 
 class CsvDownloadWriter(private val result: QueryExecutionResults, private val options: CsvDownloadOptions): BinaryResponseBody {
     override fun write(outputStream: OutputStream) {

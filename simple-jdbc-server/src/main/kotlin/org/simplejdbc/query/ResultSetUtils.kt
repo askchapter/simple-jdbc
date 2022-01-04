@@ -1,4 +1,4 @@
-package org.simplejdbc
+package org.simplejdbc.query
 
 import com.palantir.conjure.java.lib.SafeLong
 import org.simplejdbc.api.Column
