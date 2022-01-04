@@ -18,10 +18,10 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
     // Use JUnit Jupiter for testing.
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
+    testImplementation("org.junit.jupiter:junit-jupiter")
 
     // Jackson
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     implementation("com.palantir.conjure.java.runtime:conjure-java-jackson-serialization")
 
     implementation(project(":simple-jdbc-api:simple-jdbc-api-objects"))
@@ -30,11 +30,11 @@ dependencies {
 
     api("org.slf4j:slf4j-simple")
     implementation("org.slf4j:slf4j-api")
-    implementation("io.github.microutils:kotlin-logging:1.12.5")
+    implementation("io.github.microutils:kotlin-logging")
 
-    implementation("org.apache.commons:commons-csv:1.9.0")
-    implementation("org.apache.avro:avro:1.11.0")
-    implementation("org.xerial.snappy:snappy-java:1.1.8.4")
+    implementation("org.apache.commons:commons-csv")
+    implementation("org.apache.avro:avro")
+    implementation("org.xerial.snappy:snappy-java")
 }
 
 tasks.named<Test>("test") {
