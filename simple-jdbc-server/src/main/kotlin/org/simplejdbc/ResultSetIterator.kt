@@ -6,7 +6,7 @@ import java.sql.Statement
 
 private data class ResultSetIteratorState<T>(val hasNextValue: Boolean?, val nextValue: T?)
 
-class ResultSetIterator<T>(private val statement: Statement?, private val resultSet: ResultSet, private val mapRows: (ResultSet) -> T): Iterator<T>, Closeable {
+class ResultSetIterator<T>(private val resultSet: ResultSet, private val mapRows: (ResultSet) -> T): Iterator<T>, Closeable {
     private var state: ResultSetIteratorState<T> = ResultSetIteratorState(hasNextValue = null, nextValue = null)
 
     @Synchronized
@@ -43,6 +43,5 @@ class ResultSetIterator<T>(private val statement: Statement?, private val result
 
     override fun close() {
         resultSet.close()
-        statement?.close()
     }
 }

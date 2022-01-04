@@ -7,10 +7,8 @@ import org.simplejdbc.api.TableLocator
 import java.sql.Connection
 import java.sql.ResultSet
 
-data class QueryExecutorContext(val statement: java.sql.Statement, val resultSet: ResultSet)
-
-class QueryExecutor(private val connection: Connection, private val fetchSize: Int, private val limit: Int?): Query.Visitor<QueryExecutorContext> {
-    override fun visitStatement(query: Statement): QueryExecutorContext {
+class QueryExecutor(private val connection: Connection, private val fetchSize: Int, private val limit: Int?): Query.Visitor<ResultSet> {
+    override fun visitStatement(query: Statement): ResultSet {
         val statement = connection.prepareStatement(query.sql)
         query.parameterValues.map {
             it.forEachIndexed { index, parameterValue ->
@@ -33,26 +31,24 @@ class QueryExecutor(private val connection: Connection, private val fetchSize: I
         if (limit != null) {
             statement.maxRows = limit
         }
-        val resultSet = statement.executeQuery()
-        return QueryExecutorContext(statement, resultSet)
+        return statement.executeQuery()
     }
 
-    override fun visitTable(query: TableLocator): QueryExecutorContext {
+    override fun visitTable(query: TableLocator): ResultSet {
         val statement = connection.createStatement()
         statement.fetchSize = fetchSize
         if (limit != null) {
             statement.maxRows = limit
         }
-        val resultSet = statement.executeQuery(String.format(
+        return statement.executeQuery(String.format(
                 "select * from %s${if (limit == null) "" else "limit %d"}",
                 // TODO handle catalog/schema
                 statement.enquoteIdentifier(query.table, true),
                 limit
         ))
-        return QueryExecutorContext(statement, resultSet)
     }
 
-    override fun visitUnknown(unknownType: String): QueryExecutorContext {
+    override fun visitUnknown(unknownType: String): ResultSet {
         throw RuntimeException("Unknown query type \"$unknownType\"")
     }
 }

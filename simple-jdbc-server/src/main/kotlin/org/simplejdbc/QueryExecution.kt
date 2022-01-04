@@ -10,9 +10,9 @@ data class QueryExecutionResults(val columns: List<Column>, val rows: ResultSetI
 class QueryExecution {
     companion object {
         fun executeQuery(connection: Connection, fetchSize: Int, limit: Int?, query: Query): QueryExecutionResults {
-            val (statement, resultSet) = query.accept(QueryExecutor(connection, fetchSize, limit))
+            val resultSet = query.accept(QueryExecutor(connection, fetchSize, limit))
             val columns = ResultSetUtils.getResultSetColumns(resultSet)
-            val rows = ResultSetIterator(statement, resultSet) {
+            val rows = ResultSetIterator(resultSet) {
                 columns.mapIndexed { index, column ->
                     ResultSetUtils.getColumnValue(it, index, column)
                 }

@@ -9,6 +9,7 @@ import org.simplejdbc.api.CsvSeparator
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.nio.charset.Charset
+import java.sql.Connection
 
 class CsvDownloadWriter(private val result: QueryExecutionResults, private val options: CsvDownloadOptions): BinaryResponseBody {
     override fun write(outputStream: OutputStream) {
