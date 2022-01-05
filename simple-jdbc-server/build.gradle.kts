@@ -2,6 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
     application
     `maven-publish`
+    signing
 }
 
 dependencies {
@@ -59,4 +60,23 @@ publishing {
             artifact(tasks.distTar)
         }
     }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
+            credentials {
+                username = System.getenv("OSSRH_USER") ?: return@credentials
+                password = System.getenv("OSSRH_PASSWORD") ?: return@credentials
+            }
+        }
+    }
+}
+
+signing {
+    val key = System.getenv("SIGNING_KEY") ?: return@signing
+    val password = System.getenv("SIGNING_PASSWORD") ?: return@signing
+
+    useInMemoryPgpKeys(key, password)
+    sign(publishing.publications)
 }
