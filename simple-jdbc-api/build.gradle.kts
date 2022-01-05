@@ -6,7 +6,7 @@ apply(plugin = "com.palantir.conjure")
 
 tasks.named("publishTypeScript") {
     doFirst {
-        file("src/.npmrc").writeText("//registry.npmjs.org/:_authToken=${System.getenv()["NPM_TOKEN"]}")
+        file("simple-jdbc-api-typescript/src/.npmrc").writeText("//registry.npmjs.org/:_authToken=${System.getenv()["NPM_TOKEN"]}")
     }
 }
 
