@@ -58,6 +58,31 @@ publishing {
     publications {
         create<MavenPublication>("distribution") {
             artifact(tasks.distTar)
+
+            pom {
+                name.set(project.name)
+                description.set("An interface over JDBC providing interoperability with non-JVM languages and a simplified programming model targeting data transformation use-cases")
+                url.set("https://github.com/askchapter/simple-jdbc")
+
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("http://www.opensource.org/licenses/mit-license.php")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("robertf224")
+                        name.set("Robert Fidler")
+                        email.set("rob@askchapter.org")
+                    }
+                }
+
+                scm {
+                    url.set("https://github.com/askchapter/simple-jdbc/tree/${project.version}")
+                }
+            }
         }
     }
 
