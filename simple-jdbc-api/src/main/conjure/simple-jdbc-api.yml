@@ -1,6 +1,6 @@
 types:
   definitions:
-    default-package: org.simplejdbc.api
+    default-package: org.askchapter.simplejdbc.api
     objects:
       TableLocator:
         fields:
@@ -122,7 +122,7 @@ types:
 services:
   SimpleJdbcService:
     name: Simple JDBC
-    package: org.simplejdbc.api
+    package: org.askchapter.simplejdbc.api
     base-path: /
     endpoints:
       catalogs:
