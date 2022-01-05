@@ -1,12 +1,12 @@
-package org.simplejdbc
+package org.askchapter.simplejdbc
 
 import com.palantir.conjure.java.undertow.lib.BinaryResponseBody
-import org.simplejdbc.api.*
-import org.simplejdbc.download.AvroDownloadWriter
-import org.simplejdbc.download.BinaryResponseBodyWrapper
-import org.simplejdbc.download.CsvDownloadWriter
-import org.simplejdbc.query.QueryExecution
-import org.simplejdbc.query.ResultSetIterator
+import org.askchapter.simplejdbc.api.*
+import org.askchapter.simplejdbc.download.AvroDownloadWriter
+import org.askchapter.simplejdbc.download.BinaryResponseBodyWrapper
+import org.askchapter.simplejdbc.download.CsvDownloadWriter
+import org.askchapter.simplejdbc.query.QueryExecution
+import org.askchapter.simplejdbc.query.ResultSetIterator
 
 class SimpleJdbcResource(private val driverManager: SimpleDriverManager): SimpleJdbcService {
     override fun catalogs(catalogsRequest: CatalogsRequest): List<String> {

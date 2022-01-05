@@ -1,4 +1,4 @@
-package org.simplejdbc.download
+package org.askchapter.simplejdbc.download
 
 import com.palantir.conjure.java.undertow.lib.BinaryResponseBody
 import java.io.OutputStream

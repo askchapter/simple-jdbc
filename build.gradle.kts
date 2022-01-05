@@ -17,7 +17,7 @@ val gitVersion: groovy.lang.Closure<String> by extra
 version = gitVersion()
 
 allprojects {
-    group = "org.simplejdbc"
+    group = "org.askchapter.simplejdbc"
     version = rootProject.version
 
     repositories {

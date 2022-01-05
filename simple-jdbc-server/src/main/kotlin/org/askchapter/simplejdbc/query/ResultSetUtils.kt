@@ -1,9 +1,9 @@
-package org.simplejdbc.query
+package org.askchapter.simplejdbc.query
 
 import com.palantir.conjure.java.lib.SafeLong
-import org.simplejdbc.api.Column
-import org.simplejdbc.api.ColumnType
-import org.simplejdbc.api.SimpleColumnType
+import org.askchapter.simplejdbc.api.Column
+import org.askchapter.simplejdbc.api.ColumnType
+import org.askchapter.simplejdbc.api.SimpleColumnType
 import java.sql.ResultSet
 import java.sql.Types
 import java.util.*

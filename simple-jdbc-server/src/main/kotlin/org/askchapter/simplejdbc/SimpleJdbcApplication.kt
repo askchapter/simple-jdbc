@@ -1,13 +1,13 @@
-package org.simplejdbc
+package org.askchapter.simplejdbc
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.palantir.conjure.java.undertow.runtime.ConjureHandler
 import io.undertow.Handlers
 import io.undertow.Undertow
-import org.simplejdbc.api.Configuration
-import org.simplejdbc.api.JdbcDriver
-import org.simplejdbc.api.SimpleJdbcServiceEndpoints
+import org.askchapter.simplejdbc.api.Configuration
+import org.askchapter.simplejdbc.api.JdbcDriver
+import org.askchapter.simplejdbc.api.SimpleJdbcServiceEndpoints
 import java.io.File
 import java.nio.file.Paths
 import kotlin.system.exitProcess

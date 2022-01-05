@@ -50,10 +50,14 @@ tasks.named<Test>("test") {
 }
 
 application {
-    mainClass.set("org.simplejdbc.SimpleJdbcApplicationKt")
+    mainClass.set("org.askchapter.simplejdbc.SimpleJdbcApplicationKt")
 }
 
 publishing {
+    repositories {
+        mavenCentral()
+    }
+
     publications {
         create<MavenPublication>("distribution") {
             artifact(tasks.distTar)

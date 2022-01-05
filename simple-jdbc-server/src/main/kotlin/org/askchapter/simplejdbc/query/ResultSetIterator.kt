@@ -1,4 +1,4 @@
-package org.simplejdbc.query
+package org.askchapter.simplejdbc.query
 
 import java.io.Closeable
 import java.sql.ResultSet

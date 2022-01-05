@@ -1,12 +1,12 @@
-package org.simplejdbc.download
+package org.askchapter.simplejdbc.download
 
 import com.palantir.conjure.java.undertow.lib.BinaryResponseBody
 import org.apache.commons.csv.CSVFormat
-import org.simplejdbc.api.CsvDownloadOptions
+import org.askchapter.simplejdbc.api.CsvDownloadOptions
 import java.io.OutputStream
 import org.apache.commons.csv.CSVPrinter
-import org.simplejdbc.query.QueryExecutionResults
-import org.simplejdbc.api.CsvSeparator
+import org.askchapter.simplejdbc.query.QueryExecutionResults
+import org.askchapter.simplejdbc.api.CsvSeparator
 import java.io.BufferedWriter
 import java.io.OutputStreamWriter
 import java.nio.charset.Charset

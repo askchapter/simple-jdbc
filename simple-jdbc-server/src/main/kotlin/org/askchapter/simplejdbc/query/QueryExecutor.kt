@@ -1,9 +1,9 @@
-package org.simplejdbc.query
+package org.askchapter.simplejdbc.query
 
-import org.simplejdbc.api.ParameterValue
-import org.simplejdbc.api.Query
-import org.simplejdbc.api.Statement
-import org.simplejdbc.api.TableLocator
+import org.askchapter.simplejdbc.api.ParameterValue
+import org.askchapter.simplejdbc.api.Query
+import org.askchapter.simplejdbc.api.Statement
+import org.askchapter.simplejdbc.api.TableLocator
 import java.sql.Connection
 import java.sql.ResultSet
 

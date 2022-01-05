@@ -1,7 +1,7 @@
-package org.simplejdbc.query
+package org.askchapter.simplejdbc.query
 
-import org.simplejdbc.api.Column
-import org.simplejdbc.api.Query
+import org.askchapter.simplejdbc.api.Column
+import org.askchapter.simplejdbc.api.Query
 import java.sql.Connection
 
 

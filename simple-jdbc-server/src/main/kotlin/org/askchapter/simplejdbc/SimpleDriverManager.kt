@@ -1,6 +1,6 @@
-package org.simplejdbc
+package org.askchapter.simplejdbc
 
-import org.simplejdbc.api.JdbcDriver
+import org.askchapter.simplejdbc.api.JdbcDriver
 import java.net.URL
 import java.net.URLClassLoader
 import java.sql.Connection
