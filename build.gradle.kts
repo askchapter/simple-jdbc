@@ -10,10 +10,11 @@ buildscript {
 
 plugins {
     id("com.palantir.consistent-versions") version "2.5.0"
+    id("com.palantir.git-version") version "0.12.3"
 }
 
-// TODO: derive from git version
-version = "0.0.1"
+val gitVersion: groovy.lang.Closure<String> by extra
+version = gitVersion()
 
 allprojects {
     group = "org.simplejdbc"

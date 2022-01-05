@@ -1,6 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
     application
+    `maven-publish`
 }
 
 dependencies {
@@ -50,4 +51,12 @@ tasks.named<Test>("test") {
 
 application {
     mainClass.set("org.simplejdbc.SimpleJdbcApplicationKt")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("distribution") {
+            artifact(tasks.distTar)
+        }
+    }
 }
