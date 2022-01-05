@@ -54,10 +54,6 @@ application {
 }
 
 publishing {
-    repositories {
-        mavenCentral()
-    }
-
     publications {
         create<MavenPublication>("distribution") {
             artifact(tasks.distTar)
