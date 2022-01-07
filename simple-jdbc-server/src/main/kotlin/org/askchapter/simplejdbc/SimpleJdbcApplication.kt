@@ -34,9 +34,9 @@ class SimpleJdbcApplication {
 fun main(args: Array<String>) {
     if (args.size != 1) {
         println("""
-            USAGE: simple-jdbc-server /path/to/configuration.yaml
+            usage: simple-jdbc-server /path/to/configuration.yaml
         """.trimIndent())
-        exitProcess(0)
+        exitProcess(2)
     }
 
     // Load configuration
