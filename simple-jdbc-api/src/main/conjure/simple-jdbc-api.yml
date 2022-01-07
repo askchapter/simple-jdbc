@@ -127,6 +127,10 @@ services:
     package: org.askchapter.simplejdbc.api
     base-path: /
     endpoints:
+      ready:
+        http: GET /ready
+        returns: boolean
+
       catalogs:
         http: POST /catalogs
         args:
@@ -157,4 +161,3 @@ services:
           downloadRequest: DownloadRequest
         returns: binary
 
-      

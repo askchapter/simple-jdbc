@@ -9,6 +9,10 @@ import org.askchapter.simplejdbc.query.QueryExecution
 import org.askchapter.simplejdbc.query.ResultSetIterator
 
 class SimpleJdbcResource(private val driverManager: SimpleDriverManager): SimpleJdbcService {
+    override fun ready(): Boolean {
+        return true
+    }
+
     override fun catalogs(catalogsRequest: CatalogsRequest): List<String> {
         val connection = driverManager.getConnection(catalogsRequest.jdbcUrl)
         connection.use {
