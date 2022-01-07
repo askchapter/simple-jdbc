@@ -117,6 +117,8 @@ types:
 
       Configuration:
         fields:
+          host: string
+          port: integer
           drivers: list<JdbcDriver>
 
 services:
@@ -155,4 +157,4 @@ services:
           downloadRequest: DownloadRequest
         returns: binary
 
-      # update
+      

@@ -24,7 +24,7 @@ class SimpleJdbcApplication {
                                 .build())
 
         val server: Undertow = Undertow.builder()
-                .addHttpListener(3000, "0.0.0.0")
+                .addHttpListener(configuration.port, configuration.host)
                 .setHandler(handler)
                 .build()
         server.start()
