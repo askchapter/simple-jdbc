@@ -14,5 +14,9 @@ configure<ConjureExtension> {
     typescript(delegateClosureOf<GeneratorOptions> {
         setProperty("nodeCompatibleModules", true)
     } as Closure<GeneratorOptions>)
+
+    java(delegateClosureOf<GeneratorOptions> {
+        setProperty("useImmutableBytes", true)
+    } as Closure<GeneratorOptions>)
 }
 
