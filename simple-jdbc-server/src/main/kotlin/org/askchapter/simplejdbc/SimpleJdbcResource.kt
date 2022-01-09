@@ -13,6 +13,17 @@ class SimpleJdbcResource(private val driverManager: SimpleDriverManager): Simple
         return true
     }
 
+    override fun metadata(metadataRequest: MetadataRequest): MetadataResponse {
+        val connection = driverManager.getConnection(metadataRequest.jdbcUrl)
+        connection.use {
+            val metadata = connection.metaData
+            return MetadataResponse.builder()
+                    .productName(metadata.databaseProductName)
+                    .productVersion(metadata.databaseProductVersion)
+                    .build()
+        }
+    }
+
     override fun catalogs(catalogsRequest: CatalogsRequest): List<String> {
         val connection = driverManager.getConnection(catalogsRequest.jdbcUrl)
         connection.use {

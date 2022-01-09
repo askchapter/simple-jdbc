@@ -2,6 +2,15 @@ types:
   definitions:
     default-package: org.askchapter.simplejdbc.api
     objects:
+      MetadataRequest:
+        fields:
+          jdbcUrl: string
+
+      MetadataResponse:
+        fields:
+          productName: string
+          productVersion: string
+
       TableLocator:
         fields:
           catalog: optional<string>
@@ -130,6 +139,12 @@ services:
       ready:
         http: GET /ready
         returns: boolean
+
+      metadata:
+        http: POST /metadata
+        args:
+          metadataRequest: MetadataRequest
+        returns: MetadataResponse
 
       catalogs:
         http: POST /catalogs
