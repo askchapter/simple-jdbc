@@ -28,6 +28,7 @@ class SimpleJdbcApplication {
                 .setHandler(handler)
                 .build()
         server.start()
+    }
 }
 
 fun main(args: Array<String>) {
