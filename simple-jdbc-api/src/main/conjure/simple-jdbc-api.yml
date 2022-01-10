@@ -76,7 +76,7 @@ types:
       PreviewResponse:
         fields:
           columns: list<Column>
-          rows: list<list<any>>
+          rows: list<list<optional<any>>>
 
       StatsRequest:
         fields:

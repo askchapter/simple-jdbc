@@ -49,38 +49,44 @@ class ResultSetUtils {
             }
         }
 
-        fun getColumnValue(resultSet: ResultSet, index: Int, column: Column): Any {
+        fun getColumnValue(resultSet: ResultSet, index: Int, column: Column): Any? {
             val realIndex = index + 1
-            return column.type.accept(object: ColumnType.Visitor<Any> {
-                override fun visitString(value: SimpleColumnType): Any {
+            return column.type.accept(object: ColumnType.Visitor<Any?> {
+                override fun visitString(type: SimpleColumnType): Any? {
                     return resultSet.getString(realIndex)
                 }
 
-                override fun visitInteger(value: SimpleColumnType): Any {
-                    return resultSet.getInt(realIndex)
+                override fun visitInteger(type: SimpleColumnType): Any? {
+                    val value = resultSet.getInt(realIndex)
+                    return if (resultSet.wasNull()) null else value
                 }
 
-                override fun visitDouble(value: SimpleColumnType): Any {
-                    return resultSet.getDouble(realIndex)
+                override fun visitDouble(type: SimpleColumnType): Any? {
+                    val value = resultSet.getDouble(realIndex)
+                    return if (resultSet.wasNull()) null else value
                 }
 
-                override fun visitBoolean(value: SimpleColumnType): Any {
-                    return resultSet.getBoolean(realIndex)
+                override fun visitBoolean(type: SimpleColumnType): Any? {
+                    val value = resultSet.getBoolean(realIndex)
+                    return if (resultSet.wasNull()) null else value
                 }
 
-                override fun visitLong(value: SimpleColumnType): Any {
-                    return SafeLong.of(resultSet.getLong(realIndex))
+                override fun visitLong(type: SimpleColumnType): Any? {
+                    val value = resultSet.getLong(realIndex)
+                    return if (resultSet.wasNull()) null else SafeLong.of(value)
                 }
 
-                override fun visitTimestamp(value: SimpleColumnType): Any {
-                    return resultSet.getTimestamp(realIndex).toInstant().toString()
+                override fun visitTimestamp(type: SimpleColumnType): Any? {
+                    val value = resultSet.getTimestamp(realIndex)
+                    return if (resultSet.wasNull()) null else value.toInstant().toString()
                 }
 
-                override fun visitBinary(value: SimpleColumnType): Any {
-                    return Base64.getEncoder().encodeToString(resultSet.getBinaryStream(realIndex).readAllBytes())
+                override fun visitBinary(type: SimpleColumnType): Any? {
+                    val value = resultSet.getBinaryStream(realIndex)
+                    return if (resultSet.wasNull()) null else Base64.getEncoder().encodeToString(value.readAllBytes())
                 }
 
-                override fun visitUnknown(unknownType: String): Any {
+                override fun visitUnknown(unknownType: String): Any? {
                     throw RuntimeException("Unknown column type $unknownType")
                 }
             })

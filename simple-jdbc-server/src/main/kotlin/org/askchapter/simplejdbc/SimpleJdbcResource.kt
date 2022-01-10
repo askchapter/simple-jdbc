@@ -7,6 +7,7 @@ import org.askchapter.simplejdbc.download.BinaryResponseBodyWrapper
 import org.askchapter.simplejdbc.download.CsvDownloadWriter
 import org.askchapter.simplejdbc.query.QueryExecution
 import org.askchapter.simplejdbc.query.ResultSetIterator
+import java.util.*
 
 class SimpleJdbcResource(private val driverManager: SimpleDriverManager): SimpleJdbcService {
     override fun ready(): Boolean {
@@ -78,7 +79,9 @@ class SimpleJdbcResource(private val driverManager: SimpleDriverManager): Simple
             return PreviewResponse.builder()
                     .columns(result.columns)
                     .addAllRows(result.rows.use {
-                        it.asSequence().toList()
+                        it.asSequence().toList().map {
+                            row -> row.map { value -> if (value != null) Optional.of(value) else Optional.empty() }
+                        }
                     })
                     .build()
         }

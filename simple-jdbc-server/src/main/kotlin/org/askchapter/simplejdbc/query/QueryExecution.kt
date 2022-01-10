@@ -5,7 +5,7 @@ import org.askchapter.simplejdbc.api.Query
 import java.sql.Connection
 
 
-data class QueryExecutionResults(val columns: List<Column>, val rows: ResultSetIterator<List<Any>>)
+data class QueryExecutionResults(val columns: List<Column>, val rows: ResultSetIterator<List<Any?>>)
 
 class QueryExecution {
     companion object {
